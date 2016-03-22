@@ -1,6 +1,6 @@
 env:
     #global environmental variables control magento instal parameters
-    #see also hosts in addons
+    #see also hosts in addons.
     global:
     - PULSESTORM_MAGE2_FAKE_URL=http://magento-2-travis.dev
     - PULSESTORM_MAGE2_ADMIN_EMAIL=robert.hoffner@example.com
