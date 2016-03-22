@@ -86,4 +86,4 @@ before_script:
     - curl "$PULSESTORM_MAGE2_FAKE_URL/index.php" > /tmp/output.txt
     # test that pestle in working
     - pestle.phar hello_world
-script: test grep -Fxq "magento-2-travis.dev" /tmp/output.txt
+script: test 'grep -Fx "magento-2-travis.dev" /tmp/output.txt'
