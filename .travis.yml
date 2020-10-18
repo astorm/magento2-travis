@@ -10,7 +10,7 @@ env:
     - PULSESTORM_MAGE2_ADMIN_PASSWORD=ih3artmagento
     - PULSESTORM_MAGE2_ADMIN_DBNAME=magento_2_travis
     - PULSESTORM_PESTLE_URL=http://pestle.pulsestorm.net
-    - PULSESTORM_COMPOSER_REPOSITORY_TO_TEST=git@github.com:astorm/pestle.git
+    - PULSESTORM_COMPOSER_REPOSITORY_TO_TEST=https://github.com/astorm/pestle.git
     - PULSESTORM_COMPOSER_PACKAGE_TO_TEST=pulsestorm/pestle
 addons:
   hosts:
@@ -20,9 +20,9 @@ language: php
 sudo: required
 dist: trusty
 php:
-   #- 5.6
-   - 7.1
-   - 7.2
+   - 7.3
+services:
+   - elasticsearch 
 before_script:
     # some useful debugging stuff for travis
     #- curl http://magento-2-travis.dev/index.php
@@ -52,6 +52,11 @@ before_script:
     - mysql -uroot -e 'SET @@global.sql_mode = NO_ENGINE_SUBSTITUTION; CREATE DATABASE magento_2_travis;';
     # add apache
     - sudo apt-get install -y -qq apache2 libapache2-mod-fastcgi
+    # add elasticsearch 7.6
+    - curl https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.6.2-amd64.deb -o elasticsearch.deb
+    - sudo dpkg -i --force-confnew elasticsearch.deb
+    - sudo chown -R elasticsearch:elasticsearch /etc/default/elasticsearch
+    - sudo service elasticsearch restart
     #   enable php-fpm -- www.conf.default is PHP 7 only, so we dev/null any copy problems
     - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf 2>/dev/null || true
     - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
